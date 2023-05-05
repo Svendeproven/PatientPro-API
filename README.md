@@ -19,7 +19,9 @@ The code structure is made up of the following folders:
 │   ├───Repositories
 |   |───Services
 │   └───Utilities
-
+├───test-exam.test
+│   ├───Controllers
+│   ├───Services
 ```
 
 The architecture is based on the MVC pattern. The Views are the PatientPro app the Models are the entityModels and the Controller is the Controllers
