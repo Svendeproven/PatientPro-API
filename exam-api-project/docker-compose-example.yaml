@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: exam-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - exam-api-network
+
+
+volumes:
+  db-data:
+
+networks:
+  exam-api-network:
+    name: exam-api-network
+    driver: bridge

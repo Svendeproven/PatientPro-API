@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exam-api-project", "exam-api-project\exam-api-project.csproj", "{00A33C5B-E92A-42B4-ACC4-C2584118BC51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-exam.test", "test-exam.test\test-exam.test.csproj", "{0F02F9EA-19D7-4046-8F30-6D44E999ABE4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00A33C5B-E92A-42B4-ACC4-C2584118BC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A33C5B-E92A-42B4-ACC4-C2584118BC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A33C5B-E92A-42B4-ACC4-C2584118BC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A33C5B-E92A-42B4-ACC4-C2584118BC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F02F9EA-19D7-4046-8F30-6D44E999ABE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F02F9EA-19D7-4046-8F30-6D44E999ABE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F02F9EA-19D7-4046-8F30-6D44E999ABE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F02F9EA-19D7-4046-8F30-6D44E999ABE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,99 @@
+using exam_api_project.models.DTO;
+using exam_api_project.models.Dtos;
+using exam_api_project.models.Entities;
+using exam_api_project.Repositories;
+using exam_api_project.Services;
+using exam_api_project.Services.Interfaces;
+using exam_api_project.Services.Security;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Testcontainers.PostgreSql;
+
+namespace test_exam.test.Services
+{
+    public class UserServiceTest : IAsyncLifetime
+    {
+        // Prepare a docker container with postgres
+        private readonly PostgreSqlContainer _postgreSqlContainer; 
+        // Prepare a entity framework ExamContext
+        private  ExamContext? _examContext;
+        // Prepare the UserService 
+        private  IUserService? _userService;
+    
+        
+        public UserServiceTest()
+        {
+           // _userService = startup.ServiceProvider.GetService<IUserService>();
+            _postgreSqlContainer= new PostgreSqlBuilder()
+                .WithDatabase("test_exam_db")
+                .WithUsername("svend")
+                .WithPassword("Svend_database")
+                .Build();
+        }
+
+
+        /// <summary>
+        /// Initialize the test starts the postgres container and runs the migration
+        /// </summary>
+        public async Task InitializeAsync()
+        {
+            // Start the postgres container
+            await _postgreSqlContainer.StartAsync();
+        
+            // get the migration ExamContext inject into the postgres container and run the migration
+            _examContext = new ExamContext(new DbContextOptionsBuilder<ExamContext>()
+                .UseNpgsql(_postgreSqlContainer.GetConnectionString())
+                .Options);
+            // Migrates ExamContext to the postgres container
+            await _examContext.Database.MigrateAsync();
+            _userService = new UserService(_examContext, new PasswordService());
+        }
+ 
+        /// <summary>
+        /// Dispose the test stops the postgres container after the test
+        /// </summary>
+        public async Task DisposeAsync()
+        {
+            await _postgreSqlContainer.DisposeAsync();
+        }
+    
+        /// <summary>
+        /// Integration test for the CreateUser method in the UserService
+        /// creates a user and checks if the user is not null and if the user has a name and email
+        /// </summary>
+        private async Task CreateNewUserAsync()
+        {
+            var user = await _userService.CreateNewUserAsync(new UserModel
+            {
+                Role = "admin",
+                Name = "Flemming Lyng",
+                Email = "flemming.lyng@live.dk",
+                Password = "Qwewrt12345"
+            });
+         
+            Assert.True(user.Email == "flemming.lyng@live.dk");
+            Assert.True(user.Role == "admin");
+        }
+
+        [Fact]
+        public async Task UpdateUserAsync()
+        {
+            await CreateNewUserAsync();
+        
+            //var userId = await _userService!.GetUserByEmailAsync("flemming.lyng@live.dk").Id;
+            var newUser = new UserUpdateDto
+            {
+                Name = "Flemming Lyng"
+                ,Email ="svend@svendeprøve.dk"
+                ,Role = "admin"
+                //, Password = "Qwewrt12345"
+            };
+        
+            var user = await _userService.UpdateExistingUserAsync(newUser, 1);
+        
+            Assert.True(user.Email == "svend@svendeprøve.dk");
+            Assert.True(user.Name == "Flemming Lyng");
+        }
+    
+    }
+}
